@@ -1,20 +1,21 @@
 # import the necessary packages
-from sklearn.preprocessing import LabelBinarizer # convert labels into one-hot encoded vectors
-from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
-from keras.api.optimizers import SGD
+from sklearn.model_selection import train_test_split
 from pyimagesearch.preprocessing import ImageToArrayPreprocessor
 from pyimagesearch.preprocessing import SimplePreprocessor
 from pyimagesearch.datasets import SimpleDatasetLoader
 from pyimagesearch.nn.conv import ShallowNet
+from keras.api.optimizers import SGD
 from imutils import paths
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 
-# construct the argument parser and parse the arguments
+# construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True, help="path to input dataset")
+ap.add_argument("-m", "--model", required=True, help="path to output model")
 args = vars(ap.parse_args())
 
 # grab the list of images that we'll be describing
@@ -39,13 +40,17 @@ testY = LabelBinarizer().fit_transform(testY)
 
 # initialize the optimizer and model
 print("[INFO] compiling model...")
-opt = SGD(learning_rate=0.005)
+opt = SGD(learning_rate=0.01)
 model = ShallowNet.build(width=32, height=32, depth=3, classes=3)
 model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
-print(model.summary())
+
 # train the network
 print("[INFO] training network...")
 H = model.fit(trainX, trainY, validation_data=(testX, testY), batch_size=32, epochs=100, verbose=1)
+
+# save the network to disk
+print("[INFO] serializing network...")
+model.save(args["model"])
 
 # evaluate the network
 print("[INFO] evaluating network...")
@@ -65,4 +70,4 @@ plt.ylabel("Loss/Accuracy")
 plt.legend()
 plt.show()
 
-# python shallownet_animals.py --dataset ./datasets/animals
+# python shallownet_train.py --dataset ./datasets/animals \ --model shallownet_weights.hdf5
