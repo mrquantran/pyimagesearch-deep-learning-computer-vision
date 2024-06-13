@@ -2,7 +2,6 @@
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from .. import pyimagesearch
 from pyimagesearch.nn.conv import MiniVGGNet
 from pyimagesearch.preprocessing import AspectAwarePreprocessor, ImageToArrayPreprocessor
 from pyimagesearch.datasets import SimpleDatasetLoader
@@ -72,4 +71,4 @@ plt.ylabel("Loss/Accuracy")
 plt.legend()
 plt.show()
 
-# python ./2_practitioner_bundle/minivggnet_flowers17_data_aug.py --dataset ./datasets/flowers17/train
+# python minivggnet_flowers17_data_aug.py --dataset ./datasets/flowers17/train

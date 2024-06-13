@@ -34,4 +34,4 @@ for image in imageGen:
     if total == 10:
         break
 
-# python ./2_practitioner_bundle/augmentation_demo.py --image ./beagle.png --output ./2_practitioner_bundle/output
+# python augmentation_demo.py --image ./beagle.png --output /output
