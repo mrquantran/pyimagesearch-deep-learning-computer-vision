@@ -165,3 +165,4 @@ datasets
 logs
 output
 weights
+*.cpickle
